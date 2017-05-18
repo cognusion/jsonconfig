@@ -5,19 +5,20 @@ import (
 	"path/filepath"
 )
 
+// Config defines a set of methods for operating on Configs
 type Config interface {
 	Merge(interface{})
-	Dump() string
 	MergeFromFile(string) error
+	Dump() string
 }
 
-// Return a formatted JSON string representation of the config
+// DumpConfigs returns a formatted JSON string representation of the config
 func DumpConfigs(conf Config) string {
 	j, _ := json.MarshalIndent(conf, "", "\t")
 	return string(j)
 }
 
-// Given a directory, load all the configs
+// LoadJsonConfigs loads all the .json configs
 func LoadJsonConfigs(srcDir string, conf Config) {
 	for _, f := range readDirectory(srcDir, "*.json") {
 		_ = conf.MergeFromFile(f) // ignoring errors?!
