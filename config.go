@@ -19,13 +19,14 @@ func DumpConfigs(conf Config) string {
 }
 
 // LoadJsonConfigs loads all the .json configs
-func LoadJsonConfigs(srcDir string, conf Config) (err Error) {
+func LoadJsonConfigs(srcDir string, conf Config) (err error) {
 	for _, f := range readDirectory(srcDir, "*.json") {
 		err = conf.MergeFromFile(f) // ignoring errors?!
 		if err != nil {
 			break
 		}
 	}
+	return
 }
 
 func readDirectory(srcDir, pattern string) []string {
